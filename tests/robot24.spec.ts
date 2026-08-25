@@ -19,7 +19,7 @@ test.describe('Robot24 homepage', () => {
     await expect(searchInput).toBeFocused();
 
     await searchInput.fill('collaborative');
-    const searchButton = page.locator('.popup-search-container button.submit');
+    const searchButton = page.locator('.popup-search-container button.submit:visible');
     await expect(searchButton.locator('i.ri-search')).toBeVisible();
     await searchButton.click();
     await expect(page).toHaveURL(/robot24\.com\/\?s=collaborative/);
