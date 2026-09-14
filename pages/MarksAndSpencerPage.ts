@@ -19,9 +19,7 @@ export class MarksAndSpencerPage {
   }
 
   get useEmailInstead() {
-    return this.page
-      .locator('div.LoginModal_useEmailInstead__pCpNq')
-      .filter({ hasText: /^Use email instead$/ });
+    return this.page.getByText('Use email instead', { exact: true });
   }
 
   get emailInput() {

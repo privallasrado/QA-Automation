@@ -9,15 +9,17 @@ export class Robot24Page {
   }
 
   get searchOpener() {
-    return this.page.locator('.popup-search-opener');
+    return this.page.getByRole('search');
   }
 
   get searchInput() {
-    return this.page.locator('.popup-search-container input.search-field');
+    return this.searchOpener.getByRole('combobox', {
+      name: 'Search articles and videos across Robot24.com',
+    });
   }
 
   get searchButton() {
-    return this.page.locator('.popup-search-container button.submit');
+    return this.searchOpener.getByRole('button', { name: 'Search' });
   }
 
   async open() {
@@ -30,15 +32,13 @@ export class Robot24Page {
   }
 
   async openSearch() {
-    await this.searchOpener.click();
     await expect(this.searchInput).toBeVisible();
   }
 
   async search(term: string) {
     await this.searchInput.fill(term);
-    await expect(this.searchButton.locator('i.ri-search')).toBeVisible();
     await this.searchButton.click();
-    await expect(this.page).toHaveURL(new RegExp(`robot24\\.com\\/?s=${term}`));
+    await expect(this.page).toHaveURL(new RegExp(`robot24\\.com\\/search\\?q=${term}`));
   }
 
 }

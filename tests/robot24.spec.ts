@@ -11,17 +11,17 @@ test.describe('Robot24 homepage', () => {
     await expect(page).toHaveURL(robot24Url);
     await expect(page).toHaveTitle(/.+/);
 
-    await page.locator('.popup-search-opener').click();
-
-    const searchInput = page.locator('.popup-search-container input.search-field');
+    const search = page.getByRole('search');
+    const searchInput = search.getByRole('combobox', {
+      name: 'Search articles and videos across Robot24.com',
+    });
     await expect(searchInput).toBeVisible();
     await searchInput.click();
     await expect(searchInput).toBeFocused();
 
     await searchInput.fill('collaborative');
-    const searchButton = page.locator('.popup-search-container button.submit:visible');
-    await expect(searchButton.locator('i.ri-search')).toBeVisible();
+    const searchButton = search.getByRole('button', { name: 'Search' });
     await searchButton.click();
-    await expect(page).toHaveURL(/robot24\.com\/\?s=collaborative/);
+    await expect(page).toHaveURL(/robot24\.com\/search\?q=collaborative/);
   });
 });
