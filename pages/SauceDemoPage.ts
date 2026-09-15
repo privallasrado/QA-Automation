@@ -55,6 +55,59 @@ export class SauceDemoPage {
     return this.cartItemName.filter({ hasText: /^Sauce Labs Bike Light$/ });
   }
 
+  get checkoutButton() {
+    return this.page.getByRole('button', { name: 'Checkout' });
+  }
+
+  get checkoutInformationTitle() {
+    return this.page.getByText('Checkout: Your Information', { exact: true });
+  }
+
+  get firstNameInput() {
+    return this.page.getByLabel('First Name');
+  }
+
+  get lastNameInput() {
+    return this.page.getByLabel('Last Name');
+  }
+
+  get postalCodeInput() {
+    return this.page.getByLabel('Zip/Postal Code');
+  }
+
+  get continueButton() {
+    return this.page.getByRole('button', { name: 'Continue' });
+  }
+
+  // Order overview locators
+  get paymentInformationValue() {
+    return this.page.locator('[data-test="payment-info-value"]');
+  }
+
+  get shippingInformationValue() {
+    return this.page.locator('[data-test="shipping-info-value"]');
+  }
+
+  get totalValue() {
+    return this.page.locator('[data-test="total-label"]');
+  }
+
+  get finishButton() {
+    return this.page.getByRole('button', { name: 'Finish' });
+  }
+
+  get checkoutCompleteTitle() {
+    return this.page.getByText('Checkout: Complete!', { exact: true });
+  }
+
+  get checkoutCompleteContainer() {
+    return this.page.locator('[data-test="checkout-complete-container"]');
+  }
+
+  get thankYouMessage() {
+    return this.page.getByText('Thank you for your order!', { exact: true });
+  }
+
   async open() {
     const response = await this.page.goto(this.url);
 
@@ -96,5 +149,58 @@ export class SauceDemoPage {
 
   async verifyBikeLightIsInCart() {
     await expect(this.bikeLightInCart).toBeVisible();
+  }
+
+  async proceedToCheckout() {
+    await expect(this.checkoutButton).toBeVisible();
+    await this.checkoutButton.click();
+    await expect(this.page).toHaveURL(/\/checkout-step-one\.html$/);
+    await expect(this.checkoutInformationTitle).toBeVisible();
+  }
+
+  async enterFirstName(firstName: string) {
+    await expect(this.firstNameInput).toBeVisible();
+    await this.firstNameInput.fill(firstName);
+    await expect(this.firstNameInput).toHaveValue(firstName);
+  }
+
+  async enterLastName(lastName: string) {
+    await expect(this.lastNameInput).toBeVisible();
+    await this.lastNameInput.fill(lastName);
+    await expect(this.lastNameInput).toHaveValue(lastName);
+  }
+
+  async enterPostalCode(postalCode: string) {
+    await expect(this.postalCodeInput).toBeVisible();
+    await this.postalCodeInput.fill(postalCode);
+    await expect(this.postalCodeInput).toHaveValue(postalCode);
+  }
+
+  async continueToOrderOverview() {
+    await expect(this.continueButton).toBeVisible();
+    await this.continueButton.click();
+    await expect(this.page).toHaveURL(/\/checkout-step-two\.html$/);
+  }
+
+  async verifyOrderSummary(
+    paymentInformation: string,
+    shippingInformation: string,
+    total: string,
+  ) {
+    await expect(this.paymentInformationValue).toHaveText(paymentInformation);
+    await expect(this.shippingInformationValue).toHaveText(shippingInformation);
+    await expect(this.totalValue).toHaveText(total);
+  }
+
+  async finishOrder() {
+    await expect(this.finishButton).toBeVisible();
+    await this.finishButton.click();
+    await expect(this.page).toHaveURL(/\/checkout-complete\.html$/);
+    await expect(this.checkoutCompleteTitle).toBeVisible();
+  }
+
+  async verifyOrderCompletionPage() {
+    await expect(this.checkoutCompleteContainer).toBeVisible();
+    await expect(this.thankYouMessage).toBeVisible();
   }
 }
