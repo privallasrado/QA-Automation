@@ -36,6 +36,22 @@ pipeline {
 
   post {
     always {
+      publishHTML(target: [
+        allowMissing: true,
+        alwaysLinkToLastBuild: true,
+        keepAll: true,
+        reportDir: 'playwright-report/ui',
+        reportFiles: 'index.html',
+        reportName: 'Playwright UI Report'
+      ])
+      publishHTML(target: [
+        allowMissing: true,
+        alwaysLinkToLastBuild: true,
+        keepAll: true,
+        reportDir: 'playwright-report/api',
+        reportFiles: 'index.html',
+        reportName: 'Playwright API Report'
+      ])
       archiveArtifacts artifacts: 'playwright-report/**, test-results/**', allowEmptyArchive: true
     }
   }
