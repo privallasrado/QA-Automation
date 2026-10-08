@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:e2e": "playwright test",
+    "test:qa-playground": "playwright test qa-playground/tests/qa-playground.spec.ts",
     "test:api": "playwright test --config=playwright.api.config.ts"
   },
   "keywords": [],
