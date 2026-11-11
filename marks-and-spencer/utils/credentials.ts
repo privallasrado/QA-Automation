@@ -1,4 +1,4 @@
 export const marksAndSpencerCredentials = {
-  email: 'prival.lasrado-external@alfuttaim.com',
+  email: 'rishivanthya.sambandam@alfuttaim.com,
   password: 'Test@123',
 };
